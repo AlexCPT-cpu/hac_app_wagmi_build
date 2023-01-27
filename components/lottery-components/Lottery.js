@@ -20,6 +20,7 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
   const { address } = useAccount()
   const [quantity, setQuantity] = useState(1);
   const [allowance, setAllowance] = useState(0)
+  const [allow, setAllow] = useState(false)
 
   const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
   const ethersContract = new ethers.Contract(tContract, TOKENABI, provider)
@@ -126,8 +127,6 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
 
   const totalCost = price * quantity
   const userEntries = parseInt(userEntr)
-  const allow =  (parseInt(allowance)/ 1E18) > totalCost
-  console.log(allow)
 
 
   const lotteryOperator = admin
@@ -148,7 +147,15 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
       </p>
     )
   }
-  
+
+  const setParams = (qty) => {
+    if ((parseInt(allowance)/ 1E18) > price * qty) {
+      setAllow(false)
+    } else {
+      setAllow(true)
+    }
+    setQuantity(qty)
+  }
   
     //if (!address) return <Login />
   
@@ -198,7 +205,7 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
   
             <div className='flex items-center space-x-2 text-white bg-[#140f06] border-[#423929] border p-4'>
               <p className='extra'>ENTRIES</p>
-              <input className='flex w-full bg-transparent text-right outline-none' type='number' onChange={e => setQuantity(Number(e.currentTarget.value))} />
+              <input className='flex w-full bg-transparent text-right outline-none' type='number' onChange={e => setParams(Number(e.currentTarget.value))} />
             </div>
   
             <div className='space-y-2 mt-5'>
