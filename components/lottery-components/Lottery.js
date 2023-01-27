@@ -263,7 +263,7 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
                     <div className="flex justify-center items-center text-center">
                       <button
                         disabled={!approve}
-                        onPress={() => approve?.()}
+                        onClick={() => approve?.()}
                         className="mt-5 w-full bg-gradient-to-br from-[#F5A524] to-gray-600 px-10 py-5 rounded-md text-white shadow-xl disabled:from-gray-600 disabled:text-gray-100 disabled:to-gray-600 disabled:cursor-not-allowed"
                       >
                         Approve to Enter
