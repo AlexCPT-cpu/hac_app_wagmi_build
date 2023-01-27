@@ -42,6 +42,12 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
     functionName: "previousWinner",
   });
 
+  const { data: expiration } = useContractRead({
+    address: tokenString,
+    abi: LOTTERYABI,
+    functionName: "expiration",
+  });
+
   const { data: totalEntry } = useContractRead({
     address: tokenString,
     abi: LOTTERYABI,
@@ -221,7 +227,7 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
             </div>
             {/*countdown Timer */}
             <div className="mt-5 mb-3">
-              <CountdownTimer endTime={endTime} />
+              <CountdownTimer endTime={new Date(expiration * 1000)} />
             </div>
           </div>
 
