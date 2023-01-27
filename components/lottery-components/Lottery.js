@@ -1,5 +1,5 @@
 import Header from '../Header'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ethers } from 'ethers'
 import toast from 'react-hot-toast'
 import Marquee from 'react-fast-marquee'
@@ -19,19 +19,17 @@ import LOTTERYABI from '../../config/LOTTERYABI.json'
 const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
   const { address } = useAccount()
   const [quantity, setQuantity] = useState(1);
-  const [allowance, setAllowance] = useState(0)
   const [allow, setAllow] = useState(false)
 
   const provider = new ethers.providers.JsonRpcProvider('https://rpc.ankr.com/bsc')
   const ethersContract = new ethers.Contract(tContract, TOKENABI, provider)
 
-  const all = async() => {
-    const isApp = await fetch(`/api/tokenApproval/${address}`).then(res => res.json())
-    const appRes = await isApp
-    setAllowance(appRes[vaultId]);
-  }
-
-  all()
+  const { data: allw } = useContractRead({
+    address: tContract,
+    abi: TOKENABI,
+    functionName: 'allowance',
+    args: [address, tokenString]
+  })
 
   const { data: prevWinner } = useContractRead({
     address: tokenString,
@@ -149,12 +147,14 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
   }
 
   const setParams = (qty) => {
-    if ((parseInt(allowance)/ 1E18) > price * qty) {
+    if ((parseInt(allw)/ 1E18) > price * qty) {
       setAllow(false)
     } else {
       setAllow(true)
     }
     setQuantity(qty)
+
+    console.log(parseInt(allw), price , qty)
   }
   
     //if (!address) return <Login />
