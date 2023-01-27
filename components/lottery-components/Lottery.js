@@ -90,14 +90,14 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
   const { write: approve } = useContractWrite(app)
 
   const callBuy = async () => {
-    const notification = toast.loading("Buying tickets...");
+    const notification = toast.loading("Buying entries...");
     try {
       const data = await BuyTickets?.();
       console.info("contract call successs", data);
-      toast.success("Tickets purchased successfully", {
+      setTimeout(() => window.location.reload(true), 3000);
+      toast.success("Entries purchased successfully", {
         id: notification,
       })
-      setTimeout(() => window.location.reload(true), 3000);
     } catch (err) {
       console.error("contract call failure", err);
       toast.error("Whops something went wrong!", {
@@ -226,7 +226,7 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
                 Approve to Enter
               </Button></div>
                       :
-                      <button onClick={callBuy} className='mt-5 w-full bg-gradient-to-br from-[#F5A524] to-gray-600 px-10 py-5 rounded-md text-white shadow-xl disabled:from-gray-600 disabled:text-gray-100 disabled:to-gray-600 disabled:cursor-not-allowed'>Buy {quantity} tickets for {totalCost} HACT</button>
+                      <button onClick={callBuy} className='mt-5 w-full bg-gradient-to-br from-[#F5A524] to-gray-600 px-10 py-5 rounded-md text-white shadow-xl disabled:from-gray-600 disabled:text-gray-100 disabled:to-gray-600 disabled:cursor-not-allowed'>Buy {quantity} entries for {totalCost} HACT</button>
             }
             </>
             :
