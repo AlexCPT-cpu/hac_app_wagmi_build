@@ -67,8 +67,7 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
   const { data: isActive } = useContractRead({
     address: tokenString,
     abi: LOTTERYABI,
-    functionName: 'isActive',
-    args: [address]
+    functionName: 'isActive'
   })
 
   const { config: buy } = usePrepareContractWrite({
