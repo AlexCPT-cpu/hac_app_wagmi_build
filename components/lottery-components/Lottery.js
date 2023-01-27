@@ -98,9 +98,9 @@ const Lottery = ({ name, admin, vaultId, tokenString, tContract, endTime }) => {
       const data = await BuyTickets?.();
       console.info("contract call successs", data);
       setTimeout(() => window.location.reload(true), 3000);
-      toast.success("Entries purchased successfully", {
+      setTimeout(() => { toast.success("Entries purchased successfully", {
         id: notification,
-      });
+      })}, 4000);
     } catch (err) {
       console.error("contract call failure", err);
       toast.error("Whops something went wrong!", {
